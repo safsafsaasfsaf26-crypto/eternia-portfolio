@@ -16,8 +16,13 @@ export async function getStaticProps() {
       const fileContents = fs.readFileSync(filePath, 'utf8');
       const { data, content } = matter(fileContents);
       const processedContent = await remark().use(html).process(content);
+
+      // If image is not provided, use default demo1.png
+      const image = data.image ? data.image : "/demo1.png";
+
       return {
         ...data,
+        image,
         contentHtml: processedContent.toString(),
       };
     })
@@ -50,7 +55,9 @@ export default function Portfolio({ projects }) {
             ))}
           </div>
           <Link href="/">
-            <button style={{marginTop: '2rem', background: '#FFB347', color: '#222', fontWeight: 'bold', padding: '0.7rem 2rem', border: 'none', borderRadius: '5px'}}>العودة للرئيسية</button>
+            <button style={{marginTop: '2rem', background: '#FFB347', color: '#222', fontWeight: 'bold', padding: '0.7rem 2rem', border: 'none', borderRadius: '5px'}}>
+              العودة للرئيسية
+            </button>
           </Link>
         </section>
       </main>
